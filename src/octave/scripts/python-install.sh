@@ -5,6 +5,7 @@ date +"%Y-%m-%d_%H-%M-%S"
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+export GITUSER=cheelee
 
 # UPDATE SYSTEM
 sudo apt-get -y update
@@ -31,7 +32,7 @@ sudo apt-get install -y git
 cd ~
 mkdir github
 cd github
-git clone https://github.com/openworm/tracker-commons.git
+git clone https://github.com/$GITUSER/tracker-commons.git
 cd tracker-commons/src/Python/tests
 python tests.py
 
