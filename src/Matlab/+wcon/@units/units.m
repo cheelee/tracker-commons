@@ -3,18 +3,30 @@ classdef units < json.objs.dict
     %   Class:
     %   wcon.units
     %
+    %   https://github.com/openworm/tracker-commons/blob/master/WCON_format.md#units
+    %
     %   Canonical Units:
     %   ----------------
     %   s
     %   mm
-    %   ? temp?
     
     %{
-    properties
-        t
-        x
-        y
-    end
+    Any numeric quantity followed on a per-animal or per-timepoint basis
+    must have its units defined in an object.
+    
+    Standard units:
+    ---------------
+    - seconds
+    - millimeters
+    
+    Data properties that must have units
+    ------------------------------------
+    - t
+    - x
+    - y
+    
+    
+    Standard Properties: t x y
     %}
     
     %{
@@ -30,35 +42,28 @@ classdef units < json.objs.dict
     %}
     
     methods (Static)
-        function obj = fromFile(t)
+        function obj = fromFile(t,parent,options)
             %
             %   obj = wcon.units.fromFile(t)
             %
             %   Input
             %   -----
-            %   t: 
+            %   t: json.objs.token.object
+            %   parent: wcon.dataset
+            %   options: wcon.load_options
             
             obj = wcon.units;
             obj.props = t.getParsedData();
-            
-%             props = obj.props;
-%             
-%             
-%             setField = @wcon.sl.struct.setField;
-%             
-%             names = t.key_names;
-%             for iName = 1:length(names)
-%                 cur_name = names{iName};
-%                 value = t.getTokenString(cur_name);
-%                 try
-%                     props.(cur_name) = value;
-%                 catch
-%                     props = setField(props,cur_name,value);  
-%                 end
-%             end
-%             obj.props = props;
+            obj.props.parent = parent;
         end
     end
     
+    methods
+      	function s = struct(obj)
+            %disp('I ran')
+            s = obj.props;
+            s = wcon.utils.rmfield(s,'parent');
+        end 
+    end
 end
 
